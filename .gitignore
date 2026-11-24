@@ -1,0 +1,33 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.aps
+*.ncb
+*.sdf
+
+# 编译输出
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.pdb
+*.cache
+*.log
+
+# NuGet（用 packages.config 还原）
+packages/
+*.nupkg
+*.snupkg
+
+# SQL Server 数据库二进制文件（用 database/*.sql 脚本建库）
+*.mdf
+*.ldf
+
+# 系统文件
+Thumbs.db
+.DS_Store
+desktop.ini

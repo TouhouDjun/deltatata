@@ -1,0 +1,193 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="DeltaTradeHub.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - 塔科夫交易行</title>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+        <link href="Content/bootstrap.min.css" rel="stylesheet" />
+        <script src="Scripts/jquery.js"></script>
+        <script src="Scripts/bootstrap.bundle.min.js"></script>
+    </asp:ContentPlaceHolder>
+    <style>
+        /* 所有样式与您提供的完全相同，保持不变，此处省略（请使用您的原始样式） */
+        body { margin: 0; padding: 0; background-color: #f5f7fa; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+        .top-nav { background-color: #1e293b; height: 60px; display: flex; align-items: center; padding: 0 24px; color: white; position: relative; z-index: 100; }
+        .logo { font-size: 20px; font-weight: 700; color: #ff7e00; text-decoration: none; margin-right: 32px; }
+        .nav-menu { display: flex; list-style: none; margin: 0; padding: 0; }
+        .nav-menu li { margin: 0 16px; }
+        .nav-menu li a { color: #e2e8f0; text-decoration: none; font-size: 14px; transition: color 0.2s; }
+        .nav-menu li a:hover, .nav-menu li a.active { color: #ff7e00; }
+        .user-bar { position: absolute; right: 24px; display: flex; align-items: center; gap: 20px; }
+        .cart-icon { font-size: 18px; cursor: pointer; position: relative; }
+        .cart-badge { position: absolute; top: -8px; right: -8px; background-color: #ff7e00; color: white; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .user-info { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .avatar { width: 32px; height: 32px; border-radius: 50%; background-color: #475569; overflow: hidden; }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .username { font-size: 13px; color: #e2e8f0; }
+        .balance-info { font-size: 13px; background: #2d3a48; padding: 4px 12px; border-radius: 20px; }
+        .user-dropdown { position: absolute; top: 60px; right: 24px; width: 180px; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; z-index: 99; }
+        .user-dropdown.show { display: block; }
+        .user-dropdown ul { list-style: none; padding: 8px 0; margin: 0; }
+        .user-dropdown li { padding: 8px 16px; }
+        .user-dropdown li a { color: #1e293b; text-decoration: none; font-size: 13px; display: block; }
+        .user-dropdown li a:hover { background-color: #f8fafc; }
+        .breadcrumb { margin-bottom: 16px; font-size: 12px; color: #64748b; }
+        .content-container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        /* 购物车侧边栏初始隐藏 */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 420px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 12px rgba(0,0,0,0.1);
+            z-index: 1001;
+            display: none;
+            flex-direction: column;
+        }
+        .cart-drawer.open { display: flex; }
+        .cart-header { padding: 16px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 600; }
+        .close-cart { cursor: pointer; font-size: 20px; }
+        .cart-body { flex: 1; overflow-y: auto; padding: 16px; }
+        .cart-empty { text-align: center; padding: 40px; color: #94a3b8; }
+        .cart-item { display: flex; gap: 12px; border-bottom: 1px solid #f1f5f9; padding: 12px 0; }
+        .cart-item-img { width: 60px; height: 60px; border-radius: 8px; background: #f8fafc; overflow: hidden; }
+        .cart-item-img img { width: 100%; height: 100%; object-fit: contain; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 500; font-size: 13px; }
+        .cart-item-price { color: #ff7e00; font-weight: 600; font-size: 14px; }
+        .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+        .qty-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid #e2e8f0; background: #f8fafc; cursor: pointer; }
+        .qty-input { width: 50px; text-align: center; border: 1px solid #e2e8f0; border-radius: 4px; }
+        .cart-item-remove { color: #dc3545; cursor: pointer; }
+        .cart-footer { padding: 16px; border-top: 1px solid #f1f5f9; }
+        .cart-total { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 12px; }
+        .btn-checkout { width: 100%; background: #ff7e00; color: white; border: none; border-radius: 8px; padding: 10px; cursor: pointer; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; }
+        .overlay.show { display: block; }
+        .toast-notify { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 8px 16px; border-radius: 4px; color: white; display: none; }
+        .toast-success { background-color: #28a745; }
+        .toast-error { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="top-nav">
+            <a href="Market.aspx" class="logo">ΔTRADE</a>
+            <ul class="nav-menu">
+                <li><a href="Market.aspx">首页</a></li>
+                <li><a href="Marketplace.aspx">饰品市场</a></li>
+                <li><a href="News.aspx">资讯</a></li>
+                <li><a href="Bank.aspx">自助充值</a></li>
+                <li><a href="Trending.aspx">趋势榜单</a></li>
+                <li><a href="AIAssistant.aspx">🤖AI助手</a></li>
+            </ul>
+            <div class="user-bar">
+                <div class="cart-icon" id="cartIcon" onclick="openCartDrawer(); return false;">
+                    🛒
+                    <span id="cartCountBadge" class="cart-badge" runat="server">0</span>
+                </div>
+                <div class="user-info" id="userInfoBtn">
+                    <div class="avatar"><asp:Image ID="imgAvatar" runat="server" Width="32" Height="32" ImageUrl="https://randomuser.me/api/portraits/lego/1.jpg" /></div>
+                    <span class="username"><asp:Literal ID="litUsername" runat="server" Text="未登录"></asp:Literal></span>
+                    <span>▼</span>
+                </div>
+                <div class="balance-info">资金 ¥<asp:Label ID="lblBalance" runat="server" Text="0.00" style="color:#ff7e00; font-weight:600;"></asp:Label></div>
+            </div>
+        </div>
+
+        <div class="user-dropdown" id="userDropdown">
+            <ul>
+                <li><a href="Storehouse.aspx">我的库存</a></li>
+                <li><a href="MyListings.aspx">我的出售</a></li>
+                <li><a href="BuyOrders.aspx">我的求购</a></li>
+                <li><a href="UserCenter.aspx">个人中心</a></li>
+                <li><a href="Logout.aspx">退出登录</a></li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb">
+            <asp:ContentPlaceHolder ID="Breadcrumb" runat="server">当前位置：<a href="Market.aspx">首页</a> &gt; 当前页面</asp:ContentPlaceHolder>
+        </div>
+
+        <div class="content-container">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+        <!-- 购物车侧边栏 -->
+        <div class="cart-drawer" id="cartDrawer">
+            <div class="cart-header">
+                <span>我的购物车</span>
+                <span class="close-cart" id="closeCartBtn" onclick="closeCartDrawer(); return false;">✕</span>
+            </div>
+            <div class="cart-body">
+                <asp:Repeater ID="rptCart" runat="server" OnItemCommand="rptCart_ItemCommand">
+                    <ItemTemplate>
+                        <div class="cart-item">
+                            <div class="cart-item-img"><img src='<%# Eval("ImageUrl") %>' onerror="this.src='/img/items/default.png'" /></div>
+                            <div class="cart-item-info">
+                                <div class="cart-item-name"><%# Eval("ItemName") %></div>
+                                <div class="cart-item-price">¥<%# Eval("Price", "{0:F2}") %></div>
+                                <div class="cart-item-qty">
+                                    <asp:LinkButton ID="btnMinus" runat="server" CommandName="Minus" CommandArgument='<%# Eval("CartId") %>' CssClass="qty-btn" Text="-" />
+                                    <asp:TextBox ID="txtQty" runat="server" Text='<%# Eval("Quantity") %>' CssClass="qty-input" Width="50" TextMode="Number" />
+                                    <asp:LinkButton ID="btnPlus" runat="server" CommandName="Plus" CommandArgument='<%# Eval("CartId") %>' CssClass="qty-btn" Text="+" />
+                                    <asp:LinkButton ID="btnRemove" runat="server" CommandName="Remove" CommandArgument='<%# Eval("CartId") %>' CssClass="cart-item-remove" Text="删除" />
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        <div class="cart-footer">
+                            <div class="cart-total">
+                                <span>总计：</span>
+                                <span class="cart-total-price">¥<asp:Literal ID="litCartTotal" runat="server" Text="0.00"></asp:Literal></span>
+                            </div>
+                            <asp:Button ID="btnCheckout" runat="server" Text="去结算" CssClass="btn-checkout" OnClick="Checkout_Click" />
+                        </div>
+                    </FooterTemplate>
+                </asp:Repeater>
+                <asp:Literal ID="litCartEmpty" runat="server" Visible="false" Text='<div class="cart-empty">购物车空空如也</div>' />
+            </div>
+        </div>
+        <div class="overlay" id="cartOverlay" onclick="closeCartDrawer(); return false;"></div>
+
+        <div class="toast-notify" id="toastNotify"></div>
+
+        <script>
+            function openCartDrawer() {
+                document.getElementById('cartDrawer').classList.add('open');
+                document.getElementById('cartOverlay').classList.add('show');
+            }
+            function closeCartDrawer() {
+                document.getElementById('cartDrawer').classList.remove('open');
+                document.getElementById('cartOverlay').classList.remove('show');
+            }
+
+            $(function () {
+                $('#userInfoBtn').click(function (e) {
+                    e.stopPropagation();
+                    $('#userDropdown').toggleClass('show');
+                });
+                $(document).click(function () {
+                    $('#userDropdown').removeClass('show');
+                });
+
+                window.showToast = function (msg, isError) {
+                    var toast = $('#toastNotify');
+                    toast.removeClass('toast-success toast-error')
+                        .addClass(isError ? 'toast-error' : 'toast-success')
+                        .text(msg)
+                        .fadeIn(200)
+                        .delay(2000)
+                        .fadeOut(200);
+                };
+            });
+        </script>
+    </form>
+</body>
+</html>

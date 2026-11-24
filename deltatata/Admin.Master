@@ -1,0 +1,193 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="DeltaTradeHub.AdminMaster" %>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理后台 - <asp:ContentPlaceHolder ID="Title" runat="server" /></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/jquery.js"></script>
+    <script src="Scripts/bootstrap.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f1f5f9;
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+        }
+        /* 顶部导航栏 */
+        .admin-nav {
+            background: #1e293b;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff7e00;
+        }
+        .logo span {
+            color: white;
+        }
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .admin-user .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #475569;
+            overflow: hidden;
+        }
+        .admin-user .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .admin-user .username {
+            font-size: 14px;
+        }
+        .logout-btn {
+            background: #dc3545;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 12px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        /* 侧边栏 */
+        .admin-sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 260px;
+            bottom: 0;
+            background: white;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            z-index: 99;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+        .sidebar-menu li a {
+            display: block;
+            padding: 10px 24px;
+            color: #334155;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .sidebar-menu li a:hover {
+            background: #f8fafc;
+            color: #ff7e00;
+        }
+        .sidebar-menu li a.active {
+            background: #fff5ec;
+            color: #ff7e00;
+            border-right: 3px solid #ff7e00;
+        }
+        .sidebar-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 12px 24px;
+        }
+        /* 主内容区 */
+        .admin-content {
+            margin-left: 260px;
+            margin-top: 60px;
+            padding: 24px;
+            min-height: calc(100vh - 60px);
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 0; overflow: hidden; transition: 0.2s; }
+            .admin-sidebar.open { width: 260px; }
+            .admin-content { margin-left: 0; }
+            .menu-toggle { display: block; }
+        }
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="admin-nav">
+            <div class="logo">塔科夫<span>交易行 · 管理后台</span></div>
+            <div class="admin-user">
+                <div class="avatar">
+                    <asp:Image ID="imgAvatar" runat="server" Width="36" Height="36" ImageUrl="https://randomuser.me/api/portraits/lego/1.jpg" />
+                </div>
+                <span class="username"><asp:Literal ID="litUsername" runat="server">管理员</asp:Literal></span>
+                <asp:LinkButton ID="btnLogout" runat="server" CssClass="logout-btn" OnClick="btnLogout_Click" Text="退出登录" />
+            </div>
+        </div>
+
+        <div class="admin-sidebar" id="adminSidebar">
+            <ul class="sidebar-menu">
+                <li><a href="AdminDashboard.aspx" class="active">📊 仪表盘</a></li>
+                <li><a href="AdminUsers.aspx">👥 用户管理</a></li>
+                <li><a href="AdminItems.aspx">🎮 商品管理</a></li>
+                <li><a href="AdminOrders.aspx">📦 订单管理</a></li>
+                <li><a href="AdminNews.aspx">🖃 文章管理</a></li>
+                <li><a href="AdminRecharge.aspx">💰 充值审核</a></li>
+                <li><a href="AdminSettings.aspx">⚙️ 系统设置</a></li>
+                
+                <div class="sidebar-divider"></div>
+                <li><a href="Market.aspx">🏪 返回前台</a></li>
+            </ul>
+        </div>
+
+        <div class="admin-content">
+            <div class="page-title">
+                <asp:ContentPlaceHolder ID="PageTitle" runat="server">仪表盘</asp:ContentPlaceHolder>
+            </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+        <script>
+            $(function () {
+                // 高亮当前菜单（根据URL）
+                var currentUrl = window.location.pathname.split('/').pop();
+                $('.sidebar-menu a').each(function () {
+                    var href = $(this).attr('href');
+                    if (href === currentUrl) {
+                        $(this).addClass('active');
+                    } else {
+                        $(this).removeClass('active');
+                    }
+                });
+            });
+        </script>
+    </form>
+</body>
+</html>

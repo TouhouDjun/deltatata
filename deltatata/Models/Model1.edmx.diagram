@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="db0faaa835e24c89b3924f6a5b6ccec4" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.BuyOrders" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Cart" Width="1.5" PointX="6" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Categories" Width="1.5" PointX="1.5" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.cs2_items" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Inventory" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Items" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Listings" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.News" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.RechargeOrders" Width="1.5" PointX="3" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.SystemSettings" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Transactions" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaTradeHubDBModel.Users" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__BuyOrders__ItemI__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__BuyOrders__UserI__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Cart__ItemId__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Cart__UserId__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Items__CategoryI__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Inventory__ItemI__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Inventory__UserI__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Listings__ItemId__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Transacti__ItemI__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Listings__UserId__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK_RechargeOrders_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaTradeHubDBModel.FK__Transacti__UserI__4E88ABD4" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
